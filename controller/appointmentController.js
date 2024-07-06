@@ -85,4 +85,26 @@ export const getAllAppointments=catchAsyncErrors (async(req,res,next)=>{
         success:true,
         appointments  
     })
+});
+
+export const updateAppointmentStatus=catchAsyncErrors(async(req,res,next)=>{
+    const {id}=req.params;
+    let appointment=await Appointment.findById(id);
+    if(!appointment){
+        return next(new ErrorHandler("Appointment Not Found",404))
+    }
+
+    // learn about the method ** findByIdAndUpdate ** that is used here 
+    appointment =await Appointment.findByIdAndUpdate(id,req.body,{
+        new :true,
+        runValidators:true,
+        useFindAndModify:false,
+    });
+    res.status(200).json({
+        success:true,
+        message:"Appointment Status Updated",
+        appointment,
+    })
+
+
 })
