@@ -32,7 +32,7 @@ export const postAppointment=catchAsyncErrors(async(req,res,next)=>{
           !department||
           !doctor_firstName||
           !doctor_lastName||
-          !hasVisited||      
+              
           !address
     ){
         return next(new ErrorHandler("Please fill full form",400))
@@ -77,5 +77,12 @@ export const postAppointment=catchAsyncErrors(async(req,res,next)=>{
         success:true,
         message:"Appointment sent successfully!"
     })
+});
 
+export const getAllAppointments=catchAsyncErrors (async(req,res,next)=>{
+    const appointments=await Appointment.find();
+    res.status(200).json({
+        success:true,
+        appointments  
+    })
 })

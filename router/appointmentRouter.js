@@ -1,7 +1,9 @@
 import express from "express"
-import { postAppointment } from "../controller/appointmentController";
+import { getAllAppointments, postAppointment } from "../controller/appointmentController.js";
+import { isAdminAuthenticated,isPatientAuthenticated } from "../middlewares/auth.js";
+
 const router=express.Router();
 
-router.post("/post",postAppointment);
-
+router.post("/post",isPatientAuthenticated,postAppointment); // jo appointment post karega woh patient hona chahiye
+router.get("/getall",isAdminAuthenticated,getAllAppointments);
 export default router;
